@@ -1,10 +1,16 @@
-# mapping-canadian-geomagnetic-activity
-For Space Apps Challenge 2019: CSA Go Canada challenge 2
+# CSA Challenge 2: Mapping the variation of the Earth's magnetic field
 
 ## Team Name: Magneto AI
-### Team Members:
-Joshua Swain </br>
-Sabareeshnath </br>
-Jivitesh Gudekar <br>
-Vismay Revankar <br>
-Syed <br>
+
+## Team Members
+|			Name        				|   Email ID   					| Organisation				|
+| --------------------------------------|-------------------------------|---------------------------|
+| Joshua Swain		      				| joshua.thomas.swain@dal.ca 	|Dalhousie University	 	|
+| Vismay Revankar      					| vismayhr@hotmail.com 		    |Dalhousie University		|
+| Jivitesh Gudekar 						| gudekar.jivitesh@gmail.com    |Dalhousie University 		|
+| Sabareeshnath Kadamgode Puthenveedu 	| sabareeshnathkp@gmail.com     |Saint Mary's University 	|
+| Abdul Basit Syed		 				| ab652165@dal.ca     			|Dalhousie University 		|
+
+## Project Structure
+* [data]()
+
