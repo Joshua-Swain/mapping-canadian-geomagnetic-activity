@@ -1,0 +1,17 @@
+Execution steps
+---------------
+
+1. To run, open a terminal in the 'mainapp' folder and run `python app.py`
+
+2. Finally go to `http://localhost:8001` or `http://127.0.0.1:8001` within your browser
+
+
+Folder Structure
+----------------
+requirements.txt - This file lists all of the Python packages that your app depends on.
+config.py - This file contains most of the configuration variables that your app needs.
+/mainapp/ - This is the package that contains your main server application.
+/mainapp/app.py - This is the file that is invoked to start up a development server.
+/mainapp/templates/ - This is where you’ll put the Jinja2 templates for your app. (HTML files)
+/mainapp/templates/scripts - This is where you’ll put the javascrits files. (HTML files)
+/mainapp/templates/css - This is where you’ll put the CSS files. (HTML files)
