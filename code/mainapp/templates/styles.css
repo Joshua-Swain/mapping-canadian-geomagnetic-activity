@@ -1,0 +1,62 @@
+html, body {
+	border: 2px solid blue;
+	height: 98%;
+	width: 98%;
+	padding: none;
+	margin: none;
+}
+
+div {
+	border: none;
+	margin: none;
+	padding: none;
+}
+
+.container {
+	display: flex;
+	align-content: space-between;
+	flex-flow: column nowrap;
+	height: 100%;
+	width: 100%;
+}
+
+.header {
+	display: flex;
+	flex-grow: 0;
+	flex-shrink: 0;
+	flex-basis: 100px;
+	border: 2px solid brown;
+}
+
+.middle {
+	display: flex;
+	flex-flow: row wrap;
+	flex: auto;
+	border: 2px solid orange;
+}
+
+.footer {
+	display: flex;
+	flex-grow: 0;
+	flex-shrink: 0;
+	flex-basis: 80px;
+	border: 2px solid yellow;
+}
+
+.inputs {
+	display: flex;
+	flex-grow: 0;
+	flex-shrink: 0;
+	flex-basis: 200px;
+	border: 2px solid brown;
+}
+
+.map {
+	display: flex;
+	flex: auto;
+	border: 2px solid purple;
+}
+
+.border {
+	border: 2px solid black;
+}
