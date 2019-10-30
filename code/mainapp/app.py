@@ -1,5 +1,9 @@
 from flask import Flask, render_template
 from flask_cors import CORS
+from backend_implementation.kriging import Kriging
+from backend_implementation.full_data import FullData
+from backend_implementation.holed_data import HoledData
+import os
 
 
 app = Flask(__name__, static_url_path='')
@@ -23,6 +27,16 @@ def server_error(error):
 @app.route('/')
 def home(): 
 	# Runs on initialization and renders index.html
+	# Load the datasets and have it always available to avoid reading dataset files repeatedly.
+	full_data = FullData()
+	holed_data = HoledData()
+
+	# Take user input
+	day = '01'
+	hour = '01'
+	dataset = "train"
+
+	full_data.get_index(day, hour)
 	return render_template('index.html')
 
 # Set host to 0.0.0.0 so that it is accessible from 'outside the container'
