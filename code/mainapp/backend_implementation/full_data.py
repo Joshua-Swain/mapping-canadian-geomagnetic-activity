@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import logging
 from .data import Data
-from .filepaths import full_dataset_filepath, holed_dataset_filepath
+from .filepaths import full_dataset_filepath
 from .canadas_coordinates import *
 from .dataset_columns import *
 
@@ -21,7 +21,11 @@ class FullData(Data):
 			self.full_data_longitudes.append(self.full_dataset_df[site + '_lon'][0])
 			self.full_data_latitudes.append(self.full_dataset_df[site + '_lat'][0])
 
-	def get_index(self, day, hour):
-		timestamp = str(day) + "-" + str(hour)
-		index = self.full_dataset_df.index[self.full_dataset_df['DD-HH'] == timestamp].to_list()[0]
-		print(index, flush=True)
+	def get_index_of_timestamp(self, timestamp):
+		try:
+			index = self.full_dataset_df.index[self.full_dataset_df['DD-HH'] == timestamp].to_list()[0]
+		except:
+			print(f"The timestamp {timestamp} is not present in the full dataset. Instead, fetching the index for the timestamp 01-01")
+			index = self.full_dataset_df.index[self.full_dataset_df['DD-HH'] == "01-01"].to_list()[0]
+		print(f"full data index is: {index}", flush=True)
+		return index

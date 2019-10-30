@@ -4,13 +4,64 @@
 	<meta charset='UTF-8'>
 	<title>Find the Force</title>
 	<link rel='stylesheet' type='text/css' href='{{ url_for('static',filename='styles/main-page.css') }}'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
 <body>
 	<div class="container">
 		<div class="header"><h1>Welcome to the Force Finder || Magneto Map</h1></div>
-		<div class="middle" 2px solid black">
+		<div class="middle" 2px solid black>
 			<div class="inputs">
-			inputs
+			
+			<!--Form used to take input from the user -->
+			<div class='container'>
+    			<h3>Input</h3>
+
+				<form action="{{ url_for('handle_input') }}" method="post">
+				  <div class="form-group row">
+				    <label for="day" class="col-sm-2 col-form-label">Day</label>
+				    <div class="col-sm-10">
+				      <input type="text" class="form-control" name="day" id="day" placeholder="Day Number (DD)">
+				    </div>
+				  </div>
+				  <div class="form-group row">
+				    <label for="hour" class="col-sm-2 col-form-label">Hour</label>
+				    <div class="col-sm-10">
+				      <input type="password" class="form-control" name="hour" id="hour" placeholder="Hour (HH)">
+				    </div>
+				  </div>
+				  <fieldset class="form-group">
+				    <div class="row">
+				      <legend class="col-form-label col-sm-2 pt-0">Dataset </legend>
+				      <div class="col-sm-10">
+				        <div class="form-check">
+				          <input class="form-check-input" type="radio" name="dataset" id="fullDataset" value="full" checked>
+				          <label class="form-check-label" for="fullDataset">
+				            Full Dataset (i.e train data)
+				          </label>
+				        </div>
+				        <div class="form-check">
+				          <input class="form-check-input" type="radio" name="dataset" id="holedDataset" value="holed">
+				          <label class="form-check-label" for="holedDataset">
+				            Holed Dataset (i.e test data)
+				          </label>
+				        </div>
+				      </div>
+				    </div>
+				  </fieldset>
+
+				  <div class="form-group row">
+				    <div class="col-sm-10">
+				      <input type="Submit" name="test" class="btn btn-primary">Submit</input>
+				      <!--<a href=# id=test><button class='btn btn-default'>Test</button></a>-->
+				    </div>
+				  </div>
+				</form>
+
+            		
+        		
+
+			</div>
+
 			<!-- Bring in radio buttons -->
 			</div>
 			<div class="map">map</div>
