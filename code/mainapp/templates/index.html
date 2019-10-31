@@ -58,7 +58,10 @@
 			<!-- Bring in radio buttons -->
 			</div>
 			<div class="map">map
-				{{ data }}
+				<script type="text/javascript">
+					console.log( {{ data.sites_data | tojson | safe }} );
+				</script>
+				<!-- {{ data.target_site | tojson }} -->
 			</div>
 		</div>
 		<!-- also need footer -->

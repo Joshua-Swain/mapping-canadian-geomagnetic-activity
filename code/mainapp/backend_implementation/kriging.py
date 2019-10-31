@@ -93,14 +93,14 @@ class Kriging():
 	def structure_output_as_json(self, kriging_output):
 		json_response_obj = {}
 
-		# JSON object containing magnetic field variation values of the MEA site
+		# dict object containing magnetic field variation values of the MEA site
 		target_site_dict = {
 		'site' : target_columns[0], 
 		'predicted_value' : kriging_output['predicted_value'], 
 		'target_value' : kriging_output['target_value']
 		}
 
-		# JSON object containing information about all sites
+		# dict object containing information about all sites
 		sites_data = []
 		sites_df = kriging_output['sites_output_df']
 		for index, row in sites_df.iterrows():
@@ -112,7 +112,7 @@ class Kriging():
 			sites_data.append(site)
 		
 
-		# JSON object containing information about all coordinates from the grid spanning across Canada
+		# dict containing information about all coordinates from the grid spanning across Canada
 		grid = kriging_output['prediction_grid']
 		latitude = southern_most_latitude
 		longitude = western_most_longitude
@@ -128,11 +128,14 @@ class Kriging():
 			longitude = western_most_longitude
 			latitude = latitude + 0.5
 		
-		# Generate a JSON object consisting of the above 3 JSON objects and return it to the browser.
+		# Generate a dict consisting of the above 3 JSON objects and return it to the browser.
 		json_response_obj[r'target_site'] = target_site_dict
 		json_response_obj[r'sites_data'] = sites_data
 		json_response_obj[r'across_canada_data'] = across_canada_data
 
-		return(json.dumps(json_response_obj))
+		# Don't do a json.dumps() here because it leads to escape characters being inserted when the 
+		# objects is unpacked as a JSON object in Jinja2 template using the 'tojson' method. Hence,
+		# pass it to the browser as a mapping (i.e dict obj) and unpack it as a JSON directly.
+		return json_response_obj
 
 

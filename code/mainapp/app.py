@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_cors import CORS
 from backend_implementation.kriging import Kriging
 from backend_implementation.full_data import FullData
@@ -74,7 +74,6 @@ def home(day='01', hour='01', dataset='full'):
 		kriging = Kriging(index, holed_data)
 
 	json_data = kriging.kriging_output_json
-	#print(f"The JSON response to the browser will be: {json_data}", flush=True)
 	return render_template('index.html', data=json_data)
 
 @app.route('/handle_input', methods=['POST'])
