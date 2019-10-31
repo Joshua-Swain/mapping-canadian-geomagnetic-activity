@@ -6,13 +6,17 @@ from pykrige.ok import OrdinaryKriging
 from .filepaths import full_dataset_filepath, holed_dataset_filepath
 from .canadas_coordinates import *
 from .dataset_columns import *
+from backend_implementation.holed_data import HoledData
+from backend_implementation.full_data import FullData
 
 class Kriging():
 
 	def __init__(self, index, data):
 		self.moving_avg_size = 2
+		self.sites_output_df = None
 		self.data_moving_avg = self.calculate_moving_average(data)
-		self.perform_kriging(index, data)
+		self.kriging_output  = self.perform_kriging(index, data)
+		print(f"The results of kriging are: {self.kriging_output}", flush=True)
 
 
 	def calculate_moving_average(self, data):
@@ -39,13 +43,43 @@ class Kriging():
 		# z1 is a masked array of size len(latitude_grid) x len(longitude_grid) containing the interpolated values.
 		# Hence, we access the value at MEA's coordinates as z1[lat][long] instead of z1[long][lat].
 		predicted_value = round(z1.data[index_of_mea_latitude][index_of_mea_longitude], 2)
-		print(f"The actual value is: {data.target.loc[index]['MEA']}", flush=True)
-		print(f"The predicted value is: {predicted_value}", flush=True)
-		print(f"The object is of type: {type(data)}", flush=True)
+		target_value = data.target.loc[index]['MEA']
+		#print(f"The target value is: {target_value} and the predicted value is {predicted_value}", flush=True)
+		#print(f"The object is of type: {type(data)}", flush=True)
+
+		if isinstance(data, FullData):
+			print("YES", flush=True)
+			sites_output_df = self.build_sites_output_dataframe(index, data, full_dataset_site_names, predicted_value)
+		else:
+			print("NO", flush=True)
+			self.sites_output_df = self.build_sites_output_dataframe(index, data, holed_dataset_site_names, predicted_value)
+
+		# Return z1.data, sites_output_df, predicted value and target_value as a dictionary. This information will
+		# be passed onto the user's browser, where is will be used to visualise the data on maps.
+		return_values = {}
+		return_values['prediction_grid'] = z1.data
+		return_values['sites_output_df'] = sites_output_df
+		return_values['predicted_value'] = predicted_value
+		return_values['target_value'] = target_value
+		return return_values
 
 
+	def build_sites_output_dataframe(self, index, data, sites, predicted_value):
+		sites_df = pd.DataFrame(columns=['site_name', 'magnetic_field_variation', 'longitude', 'latitude'])
 
+		# Create a dataframe containing information about each site and it's magnetic field variation value
+		# on the given DD-HH. This information will be visualised on a map in the browser window.
+		for site in sites:
+			name = site
+			value = data.dataset_df[site][index]
+			longitude = data.dataset_df[site + "_lon"][index]
+			latitude = data.dataset_df[site + "_lat"][index]
+			sites_df = sites_df.append(pd.Series([name, value, longitude, latitude], index=sites_df.columns), ignore_index=True)
 
-
-
-
+		# Explicitly add a row for the MEA site as the column has been removed/is unavailable in the datasets
+		name = target_columns[0] # MEA
+		value = predicted_value
+		longitude = mea_longitude
+		latitude = mea_latitude
+		sites_df = sites_df.append(pd.Series([name, value, longitude, latitude], index=sites_df.columns), ignore_index=True)
+		return sites_df

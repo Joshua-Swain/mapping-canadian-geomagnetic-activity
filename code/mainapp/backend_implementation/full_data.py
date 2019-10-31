@@ -13,10 +13,10 @@ class FullData(Data):
 
 		
 
-		print(f"Longitude grid: {self.longitude_grid}", flush=True)
-		print(f"Index of MEA long: {np.where(self.longitude_grid == -113.5)}")
-		print(f"Latitude grid: {self.latitude_grid}", flush=True)
-		print(f"Index of MEA lat: {np.where(self.latitude_grid == 54.5)}")
+		#print(f"Longitude grid: {self.longitude_grid}", flush=True)
+		##print(f"Index of MEA long: {np.where(self.longitude_grid == -113.5)}")
+		#print(f"Latitude grid: {self.latitude_grid}", flush=True)
+		#print(f"Index of MEA lat: {np.where(self.latitude_grid == 54.5)}")
 
 
 		# Load the full_dataset csv file into a DataFrame and retain only the relevant columns
