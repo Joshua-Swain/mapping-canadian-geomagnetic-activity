@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import logging
+import json
 import pykrige.kriging_tools as kt
 from pykrige.ok import OrdinaryKriging
 from .filepaths import full_dataset_filepath, holed_dataset_filepath
@@ -16,13 +17,13 @@ class Kriging():
 		self.sites_output_df = None
 		self.data_moving_avg = self.calculate_moving_average(data)
 		self.kriging_output  = self.perform_kriging(index, data)
-		print(f"The results of kriging are: {self.kriging_output}", flush=True)
+		#print(f"The results of kriging are: {self.kriging_output}", flush=True)
+		self.kriging_output_json = self.structure_output_as_json(self.kriging_output)
 
 
 	def calculate_moving_average(self, data):
-		# After experiementing with different sizes, it was found that using a moving 
-		# average over every 2 samples led to the best performing kriging model.
-		# Moving average: https://en.wikipedia.org/wiki/Moving_average
+		# After experiementing with different sizes, it was found that using a moving  average over every 2 samples 
+		# led to the best performing kriging model. Moving average: https://en.wikipedia.org/wiki/Moving_average
 		return data.df.rolling(self.moving_avg_size).mean()
 
 	def perform_kriging(self, index, data):
@@ -40,25 +41,30 @@ class Kriging():
 		index_of_mea_longitude = np.where(data.longitude_grid == mea_longitude)[0][0]
 		index_of_mea_latitude = np.where(data.latitude_grid == mea_latitude)[0][0]
 
+		print(f"LAT: {index_of_mea_latitude}, LON: {index_of_mea_longitude}", flush=True)
+		print(f"Lat grid: {data.latitude_grid}", flush=True)
+		print(f"Lon grid: {data.longitude_grid}", flush=True)
+
 		# z1 is a masked array of size len(latitude_grid) x len(longitude_grid) containing the interpolated values.
 		# Hence, we access the value at MEA's coordinates as z1[lat][long] instead of z1[long][lat].
 		predicted_value = round(z1.data[index_of_mea_latitude][index_of_mea_longitude], 2)
-		target_value = data.target.loc[index]['MEA']
-		#print(f"The target value is: {target_value} and the predicted value is {predicted_value}", flush=True)
-		#print(f"The object is of type: {type(data)}", flush=True)
 
 		if isinstance(data, FullData):
 			print("YES", flush=True)
-			sites_output_df = self.build_sites_output_dataframe(index, data, full_dataset_site_names, predicted_value)
+			self.sites_output_df = self.build_sites_output_dataframe(index, data, full_dataset_site_names, predicted_value)
+			target_value = data.target.loc[index]['MEA']
 		else:
 			print("NO", flush=True)
 			self.sites_output_df = self.build_sites_output_dataframe(index, data, holed_dataset_site_names, predicted_value)
+			target_value = None
+
+		print(f"The target value is: {target_value} and the predicted value is {predicted_value}", flush=True)
 
 		# Return z1.data, sites_output_df, predicted value and target_value as a dictionary. This information will
 		# be passed onto the user's browser, where is will be used to visualise the data on maps.
 		return_values = {}
 		return_values['prediction_grid'] = z1.data
-		return_values['sites_output_df'] = sites_output_df
+		return_values['sites_output_df'] = self.sites_output_df
 		return_values['predicted_value'] = predicted_value
 		return_values['target_value'] = target_value
 		return return_values
@@ -83,3 +89,50 @@ class Kriging():
 		latitude = mea_latitude
 		sites_df = sites_df.append(pd.Series([name, value, longitude, latitude], index=sites_df.columns), ignore_index=True)
 		return sites_df
+
+	def structure_output_as_json(self, kriging_output):
+		json_response_obj = {}
+
+		# JSON object containing magnetic field variation values of the MEA site
+		target_site_dict = {
+		'site' : target_columns[0], 
+		'predicted_value' : kriging_output['predicted_value'], 
+		'target_value' : kriging_output['target_value']
+		}
+
+		# JSON object containing information about all sites
+		sites_data = []
+		sites_df = kriging_output['sites_output_df']
+		for index, row in sites_df.iterrows():
+			site = {}
+			site[r'name'] = row['site_name']
+			site[r'value'] = row['magnetic_field_variation']
+			site[r'lon'] = row['longitude']
+			site[r'lat'] = row['latitude']
+			sites_data.append(site)
+		
+
+		# JSON object containing information about all coordinates from the grid spanning across Canada
+		grid = kriging_output['prediction_grid']
+		latitude = southern_most_latitude
+		longitude = western_most_longitude
+		across_canada_data = []
+		for row in grid:
+			for value in row:
+				location_dict = {}
+				location_dict['lon'] = longitude
+				location_dict['lat'] = latitude
+				location_dict['value'] = round(value, 2)
+				across_canada_data.append(location_dict)
+				longitude = longitude + 0.5
+			longitude = western_most_longitude
+			latitude = latitude + 0.5
+		
+		# Generate a JSON object consisting of the above 3 JSON objects and return it to the browser.
+		json_response_obj[r'target_site'] = target_site_dict
+		json_response_obj[r'sites_data'] = sites_data
+		json_response_obj[r'across_canada_data'] = across_canada_data
+
+		return(json.dumps(json_response_obj))
+
+

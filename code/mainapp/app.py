@@ -73,7 +73,9 @@ def home(day='01', hour='01', dataset='full'):
 		index = holed_data.get_index_of_timestamp(user_input.timestamp)
 		kriging = Kriging(index, holed_data)
 
-	return render_template('index.html', data="abcd")
+	json_data = kriging.kriging_output_json
+	#print(f"The JSON response to the browser will be: {json_data}", flush=True)
+	return render_template('index.html', data=json_data)
 
 @app.route('/handle_input', methods=['POST'])
 def handle_input():
