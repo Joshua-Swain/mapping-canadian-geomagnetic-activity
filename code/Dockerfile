@@ -6,12 +6,16 @@ RUN apt-get update
 RUN apt-get install -y python3 python3-dev python3-pip
 RUN pip3 install flask flask-cors uwsgi
 
+# Install python packages required to build the model (numpy, pykrige, etc)
+RUN pip3 install numpy scipy matplotlib pandas
+RUN pip3 install pykrige
+
 # Copy the files of the application into the work space of the container
 COPY ./ ./app
 WORKDIR ./app
 
 # Install the python dependencies listed in requirements.txt
-RUN pip3 install -r requirements.txt
+#RUN pip3 install -r requirements.txt
 
 # Run the flask app
 CMD ["python3", "./mainapp/app.py"]
