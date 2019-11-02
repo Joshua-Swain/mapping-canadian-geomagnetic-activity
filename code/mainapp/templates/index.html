@@ -11,8 +11,12 @@
 	   integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
 	   crossorigin=""></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='js/plot-sites-map.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='js/plot-across-canada-map.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='js/onload-default-actions.js') }}"></script>
+
 </head>
-<body>
+<body onload="clickSitesMapBtn();">
 	<div class="container">
 		<div class="header"><h1>Welcome to the Force Finder || Magneto Map</h1></div>
 		<div class="middle" 2px solid black>
@@ -59,14 +63,39 @@
 				    </div>
 				  </div>
 				</form>
+
+				<div class="btn-group btn-group-toggle" data-toggle="buttons">
+				  <label class="btn btn-secondary active">
+				    <input type="radio" name="options" id="sitesMapBtn" autocomplete="off" onclick="plotMap();" checked> Sites
+				  </label>
+				  <label class="btn btn-secondary">
+				    <input type="radio" name="options" id="acrossCanadaMapBtn" autocomplete="off" onclick="plotMap();"> Across Canada
+				  </label>
+				</div>
+
+
 			</div>
 
 			<!-- Bring in radio buttons -->
 			</div>
-			<div class="map">map
-				<script type="text/javascript">
-					console.log( {{ data.sites_data | tojson | safe }} );
-				</script>
+			<div class="map">
+				<div id="sitesDataMap" style="height:100%; width: 100%;">
+					<script type="text/javascript">
+						function plotMap(){
+						var containerInstance = L.DomUtil.get('sitesDataMap');
+						      if(containerInstance != null){
+						        containerInstance._leaflet_id = null;
+						      }					
+
+							var jsonData = {{ data | tojson | safe }};
+							if(document.getElementById('sitesMapBtn').checked) {
+								plotSitesMap(jsonData);
+							} else {
+								plotAcrossCanadaMap(jsonData);
+							}
+						}
+					</script>				
+				</div>
 				<!-- {{ data.target_site | tojson }} -->
 			</div>
 		</div>
