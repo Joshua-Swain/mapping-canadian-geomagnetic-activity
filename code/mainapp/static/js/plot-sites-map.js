@@ -24,6 +24,13 @@ function plotSitesMap(data){
 		}).addTo(mymap);
 
 		circle.bindPopup("Magnetic field variation at " + site + ": " + value);
+
+        circle.on('mouseover', function (e) {
+            this.openPopup();
+        });
+        circle.on('mouseout', function (e) {
+            this.closePopup();
+        });		
 	}
 }
 
