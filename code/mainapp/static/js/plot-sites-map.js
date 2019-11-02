@@ -1,5 +1,4 @@
 function plotSitesMap(data){
-	console.log("In the new plot sites map!")
 	var mymap = L.map('sitesDataMap').setView([62.0, -96.0], 3);
 	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
 		attribution: '<a href="https://www.openstreetmap.org/">OpenStreetMap</a> | <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -14,12 +13,11 @@ function plotSitesMap(data){
 		value = parseFloat(sites_data[row]['value']);
 		latitude = parseFloat(sites_data[row]['lat']);
 		longitude = parseFloat(sites_data[row]['lon']);
-		console.log(site, value, latitude, longitude);
 
 		var circle = L.circle([latitude, longitude], {
 			color: circleOutlineColour(site),
 			fillColor: circleFillColour(site),
-			fillOpacity: 0.5,
+			fillOpacity: 0.6,
 			radius: value * 2000
 		}).addTo(mymap);
 

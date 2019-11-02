@@ -10,7 +10,7 @@ class Data():
 
 		# Determine the number of points to calculate for and plot w.r.t longitudes & latitudes 
 		# across Canada with a resolution of 0.5 degees (latitude and longitude)
-		self.longitudnal_points = abs(western_most_longitude - eastern_most_longitude) * 2 
+		self.longitudnal_points = abs(western_most_longitude - eastern_most_longitude) * 2
 		self.latitudnal_points = abs(southern_most_latitude - northern_most_latitude) * 2
 
 		# Create grid maps of the coordinates with a resolution of 0.5 degrees 
