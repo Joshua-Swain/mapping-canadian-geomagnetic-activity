@@ -11,8 +11,12 @@
 	   integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
 	   crossorigin=""></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='js/plot-sites-map.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='js/plot-across-canada-map.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='js/onload-default-actions.js') }}"></script>
+
 </head>
-<body>
+<body onload="clickSitesMapBtn();">
 	<div class="container">
 		<div class="header"><h1>Welcome to the Force Finder || Magneto Map</h1></div>
 		<div class="middle" 2px solid black>
@@ -59,6 +63,17 @@
 				    </div>
 				  </div>
 				</form>
+
+				<div class="btn-group btn-group-toggle" data-toggle="buttons">
+				  <label class="btn btn-secondary active">
+				    <input type="radio" name="options" id="sitesMapBtn" autocomplete="off" onclick="plotMap();" checked> Sites
+				  </label>
+				  <label class="btn btn-secondary">
+				    <input type="radio" name="options" id="acrossCanadaMapBtn" autocomplete="off" onclick="plotMap();"> Across Canada
+				  </label>
+				</div>
+
+
 			</div>
 
 			<!-- Bring in radio buttons -->
@@ -66,53 +81,21 @@
 			<div class="map">
 				<div id="sitesDataMap" style="height:100%; width: 100%;">
 					<script type="text/javascript">
-						var mymap = L.map('sitesDataMap').setView([62.0, -96.0], 3);
-						L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-							attribution: '<a href="https://www.openstreetmap.org/">OpenStreetMap</a> | <a href="https://www.mapbox.com/">Mapbox</a>',
-							maxZoom: 18,
-							id: 'mapbox.streets',
-							accessToken: 'pk.eyJ1IjoidmlzbWF5aHIiLCJhIjoiY2syZXZ3ZjhrMGUxMjNib2Z1dnpoem5sZCJ9.vhBE1EO3Lxa6TJBy5XyaqQ'
-						}).addTo(mymap);
-						var jsonData = {{ data | tojson | safe }};
-						var sites_data = jsonData['sites_data']
-						for(row=0; row < sites_data.length; row++){
-							site = sites_data[row]['name'];
-							value = parseFloat(sites_data[row]['value']);
-							latitude = parseFloat(sites_data[row]['lat']);
-							longitude = parseFloat(sites_data[row]['lon']);
-							console.log(site, value, latitude, longitude);
+						function plotMap(){
+						var containerInstance = L.DomUtil.get('sitesDataMap');
+						      if(containerInstance != null){
+						        containerInstance._leaflet_id = null;
+						      }					
 
-							var circle = L.circle([latitude, longitude], {
-								color: circleOutlineColour(site),
-								fillColor: circleFillColour(site),
-								fillOpacity: 0.5,
-								radius: value * 2000
-							}).addTo(mymap);
-
-							circle.bindPopup("Magnetic field variation at " + site + ": " + value);
-
-							function circleOutlineColour(site){
-								if(site === "MEA"){
-									return("red")
-								} else {
-									return("green")
-								}
-							}
-
-							function circleFillColour(site){
-								if(site === "MEA"){
-									return("#f03")
-								} else {
-									return("#36BF1D")
-								}								
+							var jsonData = {{ data | tojson | safe }};
+							if(document.getElementById('sitesMapBtn').checked) {
+								plotSitesMap(jsonData);
+							} else {
+								plotAcrossCanadaMap(jsonData);
 							}
 						}
-
 					</script>				
 				</div>
-				<script type="text/javascript">
-					//console.log( {{ data.sites_data | tojson | safe }} );
-				</script>
 				<!-- {{ data.target_site | tojson }} -->
 			</div>
 		</div>
