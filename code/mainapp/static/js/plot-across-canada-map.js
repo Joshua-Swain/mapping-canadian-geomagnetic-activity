@@ -55,44 +55,33 @@ function plotAcrossCanadaMap(data){
 		c = 0;
 	}
 
-	var legend = L.control({position: 'bottomleft'});
 
-	legend.onAdd = function (mymap) {
-
-	    var div = L.DomUtil.create('div', 'info legend'),
-	    grades = [0, parseFloat(maxValue*0.199).toFixed(2), parseFloat(maxValue*0.399).toFixed(2), parseFloat(maxValue*0.699).toFixed(2), parseFloat(maxValue*0.7).toFixed(2)],
-	    labels = [];
-
-	    console.log("GRADES IS: " + grades);
-
-	    // loop through our density intervals and generate a label with a colored square for each interval
-	    for (var i = 0; i < grades.length; i++) {
-	    	console.log("Color for: " + grades[i] + " is " + polygonFillColour(grades[i] + 0.1));
-	        div.innerHTML +=
-	            '<i style="background:' + polygonFillColour(grades[i] + 0.1) + '"></i> ' +
-	            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
-	}
-
-	return div;
-	};
-
-	legend.addTo(mymap);
+	L.control.legend({
+	    items: [
+	        {color: '#E74C3C', label: (parseFloat(0.7*maxValue).toFixed(2)) + " - " + (parseFloat(maxValue).toFixed(2)) },
+	        {color: '#F39C12', label: (parseFloat(0.4*maxValue).toFixed(2)) + " - " + (parseFloat(0.699*maxValue).toFixed(2))},
+	        {color: '#2ECC71', label: (parseFloat(0.2*maxValue).toFixed(2)) + " - " + (parseFloat(maxValue*0.399).toFixed(2))},
+	        {color: '#2E86C1', label: 0 + " - " + (parseFloat(maxValue*0.2).toFixed(2))}
+	    ],
+	    collapsed: false,
+	    // insert different label for the collapsed legend button.
+	}).addTo(mymap);
 
 }
 
-function polygonFillColour(d) {
-    return d > 0.7 	? '#E74C3C' :
-           d > 0.4  ? '#F39C12' :
-           d > 0.2  ? '#2ECC71' :
-           			  '#2E86C1' ;
+function polygonFillColour(val) {
+    return val > 0.7  ? '#E74C3C' :
+           val > 0.4  ? '#F39C12' :
+           val > 0.2  ? '#2ECC71' :
+           			   '#2E86C1' ;
 }
 
-function polygonOutlineColour(maxValue){
-	if(maxValue < 0.2){
+function polygonOutlineColour(val){
+	if(val < 0.2){
 		return('#2E86C1 ');
-	} else if(maxValue < 0.4){
+	} else if(val < 0.4){
 		return('#2ECC71');
-	} else if (maxValue < 0.7){
+	} else if (val < 0.7){
 		return('#F39C12');
 	} else return('#E74C3C');
 }
