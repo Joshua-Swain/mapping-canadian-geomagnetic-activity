@@ -2,91 +2,167 @@
 <html>
 <head>
 	<meta charset='UTF-8'>
-	<title>Find the Force</title>
+	<title>Team MagnetoAI GO Canada Challenege</title>
 	<link rel='stylesheet' type='text/css' href='{{ url_for('static',filename='styles/main-page.css') }}'>
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
 	   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
 	   crossorigin=""/>
+	<link rel='stylesheet' type='text/css' href='{{ url_for('static',filename='styles/leaflet-legend.css') }}'>
+
 	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
 	   integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
 	   crossorigin=""></script>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
 	<script type="text/javascript" src="{{ url_for('static',filename='js/plot-sites-map.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static',filename='js/plot-across-canada-map.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static',filename='js/onload-default-actions.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='js/leaflet-legend.js') }}"></script>
 
 </head>
 <body onload="clickSitesMapBtn();">
 	<div class="container">
-		<div class="header"><h1>Welcome to the Force Finder || Magneto Map</h1></div>
+		<div class="header">
+			<img id="logo" src="{{url_for('static', filename='img/teamlogo.jpg')}}" />
+			<div id=page-header-container><h1 style="color: #303030;"><span id="pageHeader"></span></h1></div>
+		</div>
+		<script type="text/javascript">
+			var targetVal = {{ data.current_date | tojson | safe }};
+			var span = document.getElementById("pageHeader");
+			span.textContent = String("Canadian Geomagnetic Data Map on " + targetVal + " (DD-HH)");
+		</script>
+
 		<div class="middle" 2px solid black>
 			<div class="inputs">
 			
 			<!--Form used to take input from the user -->
 			<div class='container'>
-    			<h3>Input</h3>
+    			<h3 style="color: #303030; display: block; margin: 0 auto; margin-bottom: 10px;">Input</h3>
 				<form action="{{ url_for('handle_input') }}" method="post">
-				  <div class="form-group row">
-				    <label for="day" class="col-sm-2 col-form-label">Day</label>
-				    <div class="col-sm-10">
+				  <div style="display: inline; margin-left: 10px;">
+				    <label for="day" class="col-sm-2 col-form-label" style="color: #303030;"> <b> Day </b> </label>
+				    <!--<div class="col-sm-10">
 				      <input type="text" class="form-control" name="day" id="day" placeholder="Day Number (DD)">
-				    </div>
+				    </div>-->
+					<select name="day" id="day">
+					  <option value="01">1</option>
+					  <option value="02">2</option>
+					  <option value="03">3</option>
+					  <option value="04">4</option>
+					  <option value="05">5</option>
+					  <option value="06">6</option>
+					  <option value="07">7</option>
+					  <option value="08">8</option>
+					  <option value="09">9</option>
+					  <option value="10">10</option>
+					  <option value="11">11</option>
+					  <option value="12">12</option>
+					  <option value="13">13</option>
+					  <option value="14">14</option>
+					  <option value="15">15</option>
+					  <option value="16">16</option>
+					  <option value="17">17</option>
+					  <option value="18">18</option>
+					  <option value="19">19</option>
+					  <option value="20">20</option>
+					  <option value="21">21</option>
+					  <option value="22">22</option>
+					  <option value="23">23</option>
+					  <option value="24">24</option>
+					  <option value="25">25</option>
+					  <option value="26">26</option>
+					  <option value="27">27</option>
+					  <option value="28">28</option>
+					  <option value="29">29</option>
+					  <option value="30">30</option>
+					  <option value="31">31</option>
+					</select>
 				  </div>
-				  <div class="form-group row">
-				    <label for="hour" class="col-sm-2 col-form-label">Hour</label>
-				    <div class="col-sm-10">
+				  <div style="display: inline; margin-left: 10px;">
+				    <label for="hour" class="col-sm-2 col-form-label" style="color: #303030;"> <b> Hour </b> </label>
+				    <!--<div class="col-sm-10">
 				      <input type="password" class="form-control" name="hour" id="hour" placeholder="Hour (HH)">
-				    </div>
+				    </div>-->
+					<select name="hour" id="hour">
+					  <option value="01">1</option>
+					  <option value="02">2</option>
+					  <option value="03">3</option>
+					  <option value="04">4</option>
+					  <option value="05">5</option>
+					  <option value="06">6</option>
+					  <option value="07">7</option>
+					  <option value="08">8</option>
+					  <option value="09">9</option>
+					  <option value="10">10</option>
+					  <option value="11">11</option>
+					  <option value="12">12</option>
+					  <option value="13">13</option>
+					  <option value="14">14</option>
+					  <option value="15">15</option>
+					  <option value="16">16</option>
+					  <option value="17">17</option>
+					  <option value="18">18</option>
+					  <option value="19">19</option>
+					  <option value="20">20</option>
+					  <option value="21">21</option>
+					  <option value="22">22</option>
+					  <option value="23">23</option>
+					  <option value="24">24</option>
+					 </select>				    
 				  </div>
-				  <fieldset class="form-group">
-				    <div class="row">
-				      <legend class="col-form-label col-sm-2 pt-0">Dataset </legend>
-				      <div class="col-sm-10">
-				        <div class="form-check">
-				          <input class="form-check-input" type="radio" name="dataset" id="fullDataset" value="full" checked>
-				          <label class="form-check-label" for="fullDataset">
-				            Full Dataset (i.e train data)
-				          </label>
-				        </div>
-				        <div class="form-check">
-				          <input class="form-check-input" type="radio" name="dataset" id="holedDataset" value="holed">
-				          <label class="form-check-label" for="holedDataset">
-				            Holed Dataset (i.e test data)
-				          </label>
-				        </div>
-				      </div>
-				    </div>
+				  <fieldset style="margin-top: 15px; margin-bottom: 15px; margin-left: 5px; margin-right: 5px;">
+				  	<legend style="color: #303030;"> <b> Choose Dataset: </b> </legend>
+					<input type="radio" id="fullDataset" name="dataset" value="full" checked> Full Dataset<br>
+					<input type="radio" id="holedDataset" name="dataset"> Holed Dataset<br>
 				  </fieldset>
-				  <div class="form-group row">
-				    <div class="col-sm-10">
-				      <input type="Submit" name="submitBtn" class="btn btn-primary"></input>
-				    </div>
-				  </div>
+				  <input type="Submit" name="submitBtn" value="Submit" style="display: block; margin: 0 auto; font-size: 15px;"></input>
 				</form>
 
-				<div class="btn-group btn-group-toggle" data-toggle="buttons">
-				  <label class="btn btn-secondary active">
-				    <input type="radio" name="options" id="sitesMapBtn" autocomplete="off" onclick="plotMap();" checked> Sites
-				  </label>
-				  <label class="btn btn-secondary">
-				    <input type="radio" name="options" id="acrossCanadaMapBtn" autocomplete="off" onclick="plotMap();"> Across Canada
-				  </label>
+				<h3 style="color: #303030; display: block; margin: 0 auto; margin-bottom: 10px; margin-top: 30px;">Map Type</h3>
+				<fieldset style="margin-left: 5px; margin-right: 5px;">
+					<legend style="color: #303030;"> <b> Choose map type: </b> </legend>
+					<input type="radio" id="sitesMapBtn" name="mapOptions" checked onclick="plotMap();"> Sites Map<br>
+					<input type="radio" id="sitesMapBtn" name="mapOptions" onclick="plotMap();"> Canada Map<br>				
+				</fieldset>
+
+				<h3 style="color: #303030; display: block; margin: 0 auto; margin-bottom: 10px; margin-top: 30px;">Output at MEA</h3>
+				<div style="display: block; margin: 0 auto; font-size: 17px;">
+					<div>
+						<span style="display: inline;">Target value: </span>
+						<b><span id="meaTarget" style="display: inline; margin-left: 5px;"></span></b>
+					</div>
+					<script type="text/javascript">
+						var targetVal = {{ data.target_site.target_value | tojson | safe }};
+						var span = document.getElementById("meaTarget");
+						span.textContent = String(targetVal);
+					</script>
+
+
+					<script type="text/javascript">
+						var a = {{ data.target_site.target_value | tojson | safe }};
+						console.log("TARGET VAL IS: " + a);
+					</script>
+
+					<div style="margin-top: 5px;">
+						<span style="display: inline;">Predicted value: </span>
+						<span id="meaTarget" style="display: inline; margin-left: 5px;"><b> {{ data.target_site.predicted_value | tojson | safe }} </b></span>
+					</div>
+				</div>
+				<div style="width: 100%; color: #303030; position: fixed; bottom: 0; margin-bottom: 10px; font-size: 13px;">
+					<span style="display: block; margin: 0 auto;">Team MagnetoAI on:</span>
+					<div style="display: block; margin: 0 auto;">
+						<span style="display: inline;"><a href="https://github.com/Joshua-Swain/mapping-canadian-geomagnetic-activity">Github</a></span>
+						<span style="display: inline;"> &nbsp;|&nbsp; </span>
+						<span style="display: inline;"><a href="https://cloud.docker.com/repository/docker/vismayhr/csa-challenge-2">Dockerhub</a></span>
+					</div>
 				</div>
 
 
 			</div>
 
-			<!-- Bring in radio buttons -->
 			</div>
-			<div class="map">
-				<div id="sitesDataMap" style="height:100%; width: 100%;">
-					<script type="text/javascript">
+			<script type="text/javascript">
 						function plotMap(){
-						var containerInstance = L.DomUtil.get('sitesDataMap');
-						      if(containerInstance != null){
-						        containerInstance._leaflet_id = null;
-						      }					
-
+						    document.getElementById("mapContainer").innerHTML = "<div id='sitesDataMap' style='height:100%; width: 100%;'></div>";
 							var jsonData = {{ data | tojson | safe }};
 							if(document.getElementById('sitesMapBtn').checked) {
 								plotSitesMap(jsonData);
@@ -94,13 +170,15 @@
 								plotAcrossCanadaMap(jsonData);
 							}
 						}
-					</script>				
+			</script>
+			<div class="map" id="mapContainer">
+				<div id="sitesDataMap">
+
 				</div>
-				<!-- {{ data.target_site | tojson }} -->
 			</div>
 		</div>
 		<!-- also need footer -->
-		<div class="footer">footer</div>
+		<div class="footer"></div>
 	</div>
 </body>
 </html>
