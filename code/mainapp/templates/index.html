@@ -24,7 +24,7 @@
 			
 			<!--Form used to take input from the user -->
 			<div class='container'>
-    			<h3>Input</h3>
+    			<h3 style="display: block; margin: 0 auto;">Input</h3>
 				<form action="{{ url_for('handle_input') }}" method="post">
 				  <div class="form-group row">
 				    <label for="day" class="col-sm-2 col-form-label">Day</label>
@@ -38,55 +38,41 @@
 				      <input type="password" class="form-control" name="hour" id="hour" placeholder="Hour (HH)">
 				    </div>
 				  </div>
-				  <fieldset class="form-group">
-				    <div class="row">
-				      <legend class="col-form-label col-sm-2 pt-0">Dataset </legend>
-				      <div class="col-sm-10">
-				        <div class="form-check">
-				          <input class="form-check-input" type="radio" name="dataset" id="fullDataset" value="full" checked>
-				          <label class="form-check-label" for="fullDataset">
-				            Full Dataset (i.e train data)
-				          </label>
-				        </div>
-				        <div class="form-check">
-				          <input class="form-check-input" type="radio" name="dataset" id="holedDataset" value="holed">
-				          <label class="form-check-label" for="holedDataset">
-				            Holed Dataset (i.e test data)
-				          </label>
-				        </div>
-				      </div>
-				    </div>
+				  <fieldset style="margin-top: 10px; margin-bottom: 10px;">
+				  	<legend>Choose Dataset: </legend>
+					<input type="radio" id="fullDataset" name="dataset" value="full" checked> Full Dataset<br>
+					<input type="radio" id="holedDataset" name="dataset"> Across Canada<br>
 				  </fieldset>
-				  <div class="form-group row">
-				    <div class="col-sm-10">
-				      <input type="Submit" name="submitBtn" class="btn btn-primary"></input>
-				    </div>
-				  </div>
+				  <input type="Submit" name="submitBtn" class="btn btn-primary" style="display: block; margin: 0 auto;"></input>
 				</form>
 
-				<div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+				<fieldset style="margin-top: 10px;">
+					<legend>Choose map type: </legend>
+					<input type="radio" id="sitesMapBtn" name="mapOptions" checked onclick="plotMap();"> Sites<br>
+					<input type="radio" id="sitesMapBtn" name="mapOptions" onclick="plotMap();"> Across Canada<br>				
+				</fieldset>
+
+
+
+<!--				<div class="btn-group btn-group-toggle" data-toggle="buttons">
 				  <label class="btn btn-secondary active">
 				    <input type="radio" name="options" id="sitesMapBtn" autocomplete="off" onclick="plotMap();" checked> Sites
 				  </label>
 				  <label class="btn btn-secondary">
 				    <input type="radio" name="options" id="acrossCanadaMapBtn" autocomplete="off" onclick="plotMap();"> Across Canada
 				  </label>
-				</div>
+				</div> -->
 
 
 			</div>
 
 			<!-- Bring in radio buttons -->
 			</div>
-			<div class="map">
-				<div id="sitesDataMap" style="height:100%; width: 100%;">
-					<script type="text/javascript">
+			<script type="text/javascript">
+						//var containerInstance = null;
 						function plotMap(){
-						var containerInstance = L.DomUtil.get('sitesDataMap');
-						      if(containerInstance != null){
-						        containerInstance._leaflet_id = null;
-						      }					
-
+						    document.getElementById("mapContainer").innerHTML = "<div id='sitesDataMap' style='height:100%; width: 100%;'></div>";
 							var jsonData = {{ data | tojson | safe }};
 							if(document.getElementById('sitesMapBtn').checked) {
 								plotSitesMap(jsonData);
@@ -94,9 +80,11 @@
 								plotAcrossCanadaMap(jsonData);
 							}
 						}
-					</script>				
+			</script>
+			<div class="map" id="mapContainer">
+				<div id="sitesDataMap">
+
 				</div>
-				<!-- {{ data.target_site | tojson }} -->
 			</div>
 		</div>
 		<!-- also need footer -->
