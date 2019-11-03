@@ -44,6 +44,7 @@ class Kriging():
 		print(f"LAT: {index_of_mea_latitude}, LON: {index_of_mea_longitude}", flush=True)
 		print(f"Lat grid: {data.latitude_grid}", flush=True)
 		print(f"Lon grid: {data.longitude_grid}", flush=True)
+		print(f"DIMENSTIONS OF THE GRID IS: {z1.data.shape}", flush=True)
 
 		# z1 is a masked array of size len(latitude_grid) x len(longitude_grid) containing the interpolated values.
 		# Hence, we access the value at MEA's coordinates as z1[lat][long] instead of z1[long][lat].
@@ -95,9 +96,9 @@ class Kriging():
 
 		# dict object containing magnetic field variation values of the MEA site
 		target_site_dict = {
-		'site' : target_columns[0], 
-		'predicted_value' : kriging_output['predicted_value'], 
-		'target_value' : kriging_output['target_value']
+		'site': target_columns[0], 
+		'predicted_value': kriging_output['predicted_value'], 
+		'target_value': kriging_output['target_value']
 		}
 
 		# dict object containing information about all sites
@@ -120,18 +121,23 @@ class Kriging():
 		for row in grid:
 			for value in row:
 				location_dict = {}
-				location_dict['lon'] = longitude
-				location_dict['lat'] = latitude
-				location_dict['value'] = round(value, 2)
+				location_dict[r'lon'] = longitude
+				location_dict[r'lat'] = latitude
+				location_dict[r'value'] = round(value, 2)
 				across_canada_data.append(location_dict)
 				longitude = longitude + 0.5
 			longitude = western_most_longitude
 			latitude = latitude + 0.5
+
+		# dict containing the dimensions of the sites_output_df.
+		# This is used to determine the boundaries of polygons in the heat map.
+		grid_dimensions = {'rows': kriging_output['prediction_grid'].shape[0], 'columns': kriging_output['prediction_grid'].shape[1]}
 		
 		# Generate a dict consisting of the above 3 JSON objects and return it to the browser.
 		json_response_obj[r'target_site'] = target_site_dict
 		json_response_obj[r'sites_data'] = sites_data
 		json_response_obj[r'across_canada_data'] = across_canada_data
+		json_response_obj[r'grid_dimensions'] = grid_dimensions
 
 		# Don't do a json.dumps() here because it leads to escape characters being inserted when the 
 		# objects is unpacked as a JSON object in Jinja2 template using the 'tojson' method. Hence,
