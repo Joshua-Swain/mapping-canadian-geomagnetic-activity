@@ -23,7 +23,7 @@
 	<div class="container">
 		<div class="header">
 			<img id="logo" src="{{url_for('static', filename='img/teamlogo.jpg')}}" />
-			<div id=page-header-container><h1><span id="pageHeader"></span></h1></div>
+			<div id=page-header-container><h1 style="color: #303030;"><span id="pageHeader"></span></h1></div>
 		</div>
 		<script type="text/javascript">
 			var targetVal = {{ data.current_date | tojson | safe }};
