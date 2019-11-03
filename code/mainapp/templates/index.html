@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset='UTF-8'>
-	<title>GO Canada</title>
+	<title>Team MagnetoAI GO Canada Challenege</title>
 	<link rel='stylesheet' type='text/css' href='{{ url_for('static',filename='styles/main-page.css') }}'>
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
 	   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
@@ -145,6 +145,14 @@
 					<div style="margin-top: 5px;">
 						<span style="display: inline;">Predicted value: </span>
 						<span id="meaTarget" style="display: inline; margin-left: 5px;"><b> {{ data.target_site.predicted_value | tojson | safe }} </b></span>
+					</div>
+				</div>
+				<div style="width: 100%; color: #303030; position: fixed; bottom: 0; margin-bottom: 10px; font-size: 13px;">
+					<span style="display: block; margin: 0 auto;">Team MagnetoAI on:</span>
+					<div style="display: block; margin: 0 auto;">
+						<span style="display: inline;"><a href="https://github.com/Joshua-Swain/mapping-canadian-geomagnetic-activity">Github</a></span>
+						<span style="display: inline;"> &nbsp;|&nbsp; </span>
+						<span style="display: inline;"><a href="https://cloud.docker.com/repository/docker/vismayhr/csa-challenge-2">Dockerhub</a></span>
 					</div>
 				</div>
 
