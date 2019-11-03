@@ -21,7 +21,7 @@ function plotSitesMap(data){
 			radius: value * 2000
 		}).addTo(mymap);
 
-		circle.bindPopup("Magnetic field variation at " + site + ": " + value);
+		circle.bindPopup("Magnetic field variation (dB/dt) at " + site + ": " + value);
 
         circle.on('mouseover', function (e) {
             this.openPopup();

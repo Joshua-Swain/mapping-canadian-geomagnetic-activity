@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_cors import CORS
+import os
 from backend_implementation.kriging import Kriging
 from backend_implementation.full_data import FullData
 from backend_implementation.holed_data import HoledData
@@ -85,4 +86,4 @@ def handle_input():
 
 # Set host to 0.0.0.0 so that it is accessible from 'outside the container'
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=8001)
+    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get("PORT", 8001)))

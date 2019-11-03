@@ -36,9 +36,9 @@ function plotAcrossCanadaMap(data){
 
 			var val = parseFloat(canadaData[p1]['value']);
 			var polygon = L.polygon(polygonBoundary, {color: polygonOutlineColour(val/maxValue), 
-				fillColor: polygonFillColour(val/maxValue), stroke: false, fillOpacity: 0.6}).addTo(mymap);
+				fillColor: polygonFillColour(val/maxValue), stroke: false, fillOpacity: 0.4}).addTo(mymap);
 
-			popupMessage = "Lat: " + canadaData[p1]['lat'] + "\nlon: " + canadaData[p1]['lon'] + "\nIntensity: " + val;
+			popupMessage = "Lat: " + canadaData[p1]['lat'] + "\nlon: " + canadaData[p1]['lon'] + "\nVariation (dB/dt): " + val;
 
 			polygon.bindPopup(popupMessage);
 
