@@ -57,7 +57,7 @@ class Kriging():
 		else:
 			print("NO", flush=True)
 			self.sites_output_df = self.build_sites_output_dataframe(index, data, holed_dataset_site_names, predicted_value)
-			target_value = None
+			target_value = r'N/A'
 
 		print(f"The target value is: {target_value} and the predicted value is {predicted_value}", flush=True)
 
@@ -96,9 +96,9 @@ class Kriging():
 
 		# dict object containing magnetic field variation values of the MEA site
 		target_site_dict = {
-		'site': target_columns[0], 
-		'predicted_value': kriging_output['predicted_value'], 
-		'target_value': kriging_output['target_value']
+		r'site': target_columns[0], 
+		r'predicted_value': kriging_output['predicted_value'], 
+		r'target_value': kriging_output['target_value']
 		}
 
 		# dict object containing information about all sites
@@ -143,5 +143,3 @@ class Kriging():
 		# objects is unpacked as a JSON object in Jinja2 template using the 'tojson' method. Hence,
 		# pass it to the browser as a mapping (i.e dict obj) and unpack it as a JSON directly.
 		return json_response_obj
-
-

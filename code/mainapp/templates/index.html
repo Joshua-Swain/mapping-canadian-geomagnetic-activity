@@ -68,7 +68,7 @@
 					  <option value="31">31</option>
 					</select>
 				  </div>
-				  <div style="display: inline; margin-left: 10px; margin-top: 20px;">
+				  <div style="display: inline; margin-left: 10px;">
 				    <label for="hour" class="col-sm-2 col-form-label" style="color: #303030;"> <b> Hour </b> </label>
 				    <!--<div class="col-sm-10">
 				      <input type="password" class="form-control" name="hour" id="hour" placeholder="Hour (HH)">
@@ -100,7 +100,7 @@
 					  <option value="24">24</option>
 					 </select>				    
 				  </div>
-				  <fieldset style="margin-top: 10px; margin-bottom: 10px; margin-left: 5px; margin-right: 5px;">
+				  <fieldset style="margin-top: 15px; margin-bottom: 15px; margin-left: 5px; margin-right: 5px;">
 				  	<legend style="color: #303030;"> <b> Choose Dataset: </b> </legend>
 					<input type="radio" id="fullDataset" name="dataset" value="full" checked> Full Dataset<br>
 					<input type="radio" id="holedDataset" name="dataset"> Holed Dataset<br>
@@ -111,14 +111,37 @@
 				<h3 style="color: #303030; display: block; margin: 0 auto; margin-bottom: 10px; margin-top: 30px;">Map Type</h3>
 				<fieldset style="margin-left: 5px; margin-right: 5px;">
 					<legend style="color: #303030;"> <b> Choose map type: </b> </legend>
-					<input type="radio" id="sitesMapBtn" name="mapOptions" checked onclick="plotMap();"> Sites<br>
-					<input type="radio" id="sitesMapBtn" name="mapOptions" onclick="plotMap();"> Across Canada<br>				
+					<input type="radio" id="sitesMapBtn" name="mapOptions" checked onclick="plotMap();"> Sites Map<br>
+					<input type="radio" id="sitesMapBtn" name="mapOptions" onclick="plotMap();"> Canada Map<br>				
 				</fieldset>
 
 				<h3 style="color: #303030; display: block; margin: 0 auto; margin-bottom: 10px; margin-top: 30px;">Output at MEA</h3>
+				<div style="display: block; margin: 0 auto; font-size: 17px;">
+					<div>
+						<span style="display: inline;">Target value: </span>
+						<b><span id="meaTarget" style="display: inline; margin-left: 5px;"></span></b>
+					</div>
+					<script type="text/javascript">
+						var targetVal = {{ data.target_site.target_value | tojson | safe }};
+						var span = document.getElementById("meaTarget");
+						span.textContent = String(targetVal);
+					</script>
+
+
+					<script type="text/javascript">
+						var a = {{ data.target_site.target_value | tojson | safe }};
+						console.log("TARGET VAL IS: " + a);
+					</script>
+
+					<div style="margin-top: 5px;">
+						<span style="display: inline;">Predicted value: </span>
+						<span id="meaTarget" style="display: inline; margin-left: 5px;"><b> {{ data.target_site.predicted_value | tojson | safe }} </b></span>
+					</div>
+				</div>
+
+
 			</div>
 
-			<!-- Bring in radio buttons -->
 			</div>
 			<script type="text/javascript">
 						function plotMap(){

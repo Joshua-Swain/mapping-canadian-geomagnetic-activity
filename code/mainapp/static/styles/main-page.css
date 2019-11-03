@@ -2,7 +2,7 @@ html, body, div {
 	border: 0px;
 	margin: 0px;
 	padding: 0px;a
-	
+
 }
 
 html {
@@ -21,6 +21,7 @@ body {
 	flex-flow: column nowrap;
 	height: 100%;
 	width: 100%;
+	background-color: #F5F5DC;
 }
 
 .header {
@@ -58,7 +59,7 @@ body {
 .map {
 	display: flex;
 	flex: auto;
-	background-color: #555555;
+	background-color: #F5F5DC;
 	margin-right: 3px;
 }
 
