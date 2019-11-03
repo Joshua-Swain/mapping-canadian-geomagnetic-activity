@@ -12,7 +12,7 @@
 	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
 	   integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
 	   crossorigin=""></script>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
 	<script type="text/javascript" src="{{ url_for('static',filename='js/plot-sites-map.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static',filename='js/plot-across-canada-map.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static',filename='js/onload-default-actions.js') }}"></script>
@@ -27,53 +27,100 @@
 			
 			<!--Form used to take input from the user -->
 			<div class='container'>
-    			<h3 style="display: block; margin: 0 auto;">Input</h3>
+    			<h3 style="color: #303030; display: block; margin: 0 auto; margin-bottom: 10px;">Input</h3>
 				<form action="{{ url_for('handle_input') }}" method="post">
-				  <div class="form-group row">
-				    <label for="day" class="col-sm-2 col-form-label">Day</label>
-				    <div class="col-sm-10">
+				  <div style="display: inline; margin-left: 10px;">
+				    <label for="day" class="col-sm-2 col-form-label" style="color: #303030;"> <b> Day </b> </label>
+				    <!--<div class="col-sm-10">
 				      <input type="text" class="form-control" name="day" id="day" placeholder="Day Number (DD)">
-				    </div>
+				    </div>-->
+					<select name="day" id="day">
+					  <option value="01">1</option>
+					  <option value="02">2</option>
+					  <option value="03">3</option>
+					  <option value="04">4</option>
+					  <option value="05">5</option>
+					  <option value="06">6</option>
+					  <option value="07">7</option>
+					  <option value="08">8</option>
+					  <option value="09">9</option>
+					  <option value="10">10</option>
+					  <option value="11">11</option>
+					  <option value="12">12</option>
+					  <option value="13">13</option>
+					  <option value="14">14</option>
+					  <option value="15">15</option>
+					  <option value="16">16</option>
+					  <option value="17">17</option>
+					  <option value="18">18</option>
+					  <option value="19">19</option>
+					  <option value="20">20</option>
+					  <option value="21">21</option>
+					  <option value="22">22</option>
+					  <option value="23">23</option>
+					  <option value="24">24</option>
+					  <option value="25">25</option>
+					  <option value="26">26</option>
+					  <option value="27">27</option>
+					  <option value="28">28</option>
+					  <option value="29">29</option>
+					  <option value="30">30</option>
+					  <option value="31">31</option>
+					</select>
 				  </div>
-				  <div class="form-group row">
-				    <label for="hour" class="col-sm-2 col-form-label">Hour</label>
-				    <div class="col-sm-10">
+				  <div style="display: inline; margin-left: 10px; margin-top: 20px;">
+				    <label for="hour" class="col-sm-2 col-form-label" style="color: #303030;"> <b> Hour </b> </label>
+				    <!--<div class="col-sm-10">
 				      <input type="password" class="form-control" name="hour" id="hour" placeholder="Hour (HH)">
-				    </div>
+				    </div>-->
+					<select name="hour" id="hour">
+					  <option value="01">1</option>
+					  <option value="02">2</option>
+					  <option value="03">3</option>
+					  <option value="04">4</option>
+					  <option value="05">5</option>
+					  <option value="06">6</option>
+					  <option value="07">7</option>
+					  <option value="08">8</option>
+					  <option value="09">9</option>
+					  <option value="10">10</option>
+					  <option value="11">11</option>
+					  <option value="12">12</option>
+					  <option value="13">13</option>
+					  <option value="14">14</option>
+					  <option value="15">15</option>
+					  <option value="16">16</option>
+					  <option value="17">17</option>
+					  <option value="18">18</option>
+					  <option value="19">19</option>
+					  <option value="20">20</option>
+					  <option value="21">21</option>
+					  <option value="22">22</option>
+					  <option value="23">23</option>
+					  <option value="24">24</option>
+					 </select>				    
 				  </div>
-				  <fieldset style="margin-top: 10px; margin-bottom: 10px;">
-				  	<legend>Choose Dataset: </legend>
+				  <fieldset style="margin-top: 10px; margin-bottom: 10px; margin-left: 5px; margin-right: 5px;">
+				  	<legend style="color: #303030;"> <b> Choose Dataset: </b> </legend>
 					<input type="radio" id="fullDataset" name="dataset" value="full" checked> Full Dataset<br>
-					<input type="radio" id="holedDataset" name="dataset"> Across Canada<br>
+					<input type="radio" id="holedDataset" name="dataset"> Holed Dataset<br>
 				  </fieldset>
-				  <input type="Submit" name="submitBtn" class="btn btn-primary" style="display: block; margin: 0 auto;"></input>
+				  <input type="Submit" name="submitBtn" value="Submit" style="display: block; margin: 0 auto; font-size: 15px;"></input>
 				</form>
 
-
-				<fieldset style="margin-top: 10px;">
-					<legend>Choose map type: </legend>
+				<h3 style="color: #303030; display: block; margin: 0 auto; margin-bottom: 10px; margin-top: 30px;">Map Type</h3>
+				<fieldset style="margin-left: 5px; margin-right: 5px;">
+					<legend style="color: #303030;"> <b> Choose map type: </b> </legend>
 					<input type="radio" id="sitesMapBtn" name="mapOptions" checked onclick="plotMap();"> Sites<br>
 					<input type="radio" id="sitesMapBtn" name="mapOptions" onclick="plotMap();"> Across Canada<br>				
 				</fieldset>
 
-
-
-<!--				<div class="btn-group btn-group-toggle" data-toggle="buttons">
-				  <label class="btn btn-secondary active">
-				    <input type="radio" name="options" id="sitesMapBtn" autocomplete="off" onclick="plotMap();" checked> Sites
-				  </label>
-				  <label class="btn btn-secondary">
-				    <input type="radio" name="options" id="acrossCanadaMapBtn" autocomplete="off" onclick="plotMap();"> Across Canada
-				  </label>
-				</div> -->
-
-
+				<h3 style="color: #303030; display: block; margin: 0 auto; margin-bottom: 10px; margin-top: 30px;">Output at MEA</h3>
 			</div>
 
 			<!-- Bring in radio buttons -->
 			</div>
 			<script type="text/javascript">
-						//var containerInstance = null;
 						function plotMap(){
 						    document.getElementById("mapContainer").innerHTML = "<div id='sitesDataMap' style='height:100%; width: 100%;'></div>";
 							var jsonData = {{ data | tojson | safe }};
@@ -91,7 +138,7 @@
 			</div>
 		</div>
 		<!-- also need footer -->
-		<div class="footer">footer</div>
+		<div class="footer"></div>
 	</div>
 </body>
 </html>
