@@ -38,7 +38,9 @@ function plotAcrossCanadaMap(data){
 			var polygon = L.polygon(polygonBoundary, {color: polygonOutlineColour(val/maxValue), 
 				fillColor: polygonFillColour(val/maxValue), stroke: false, fillOpacity: 0.4}).addTo(mymap);
 
-			popupMessage = "Lat: " + canadaData[p1]['lat'] + "\nlon: " + canadaData[p1]['lon'] + "\nVariation (dB/dt): " + val;
+			popupMessage = "Lat:" + canadaData[p1]['lat'] + " Lon:" + canadaData[p1]['lon'] + " Variation (dB/dt):" + val;
+			popupMessage = "Magnetic field variation (dB/dt) at (" + canadaData[p1]['lat'] + "," + canadaData[p1]['lon'] + ") is: " + val;
+			//popupMessage = "Variation(dB/dt) at (" + canadaData[p1]['lat'] + ""
 
 			polygon.bindPopup(popupMessage);
 
@@ -53,24 +55,43 @@ function plotAcrossCanadaMap(data){
 		c = 0;
 	}
 
+
+	L.control.legend({
+	    items: [
+	        {color: '#E74C3C', label: (parseFloat(0.7*maxValue).toFixed(2)) + " - " + (parseFloat(maxValue).toFixed(2)) },
+	        {color: '#F39C12', label: (parseFloat(0.4*maxValue).toFixed(2)) + " - " + (parseFloat(0.699*maxValue).toFixed(2))},
+	        {color: '#2ECC71', label: (parseFloat(0.2*maxValue).toFixed(2)) + " - " + (parseFloat(maxValue*0.399).toFixed(2))},
+	        {color: '#2E86C1', label: 0 + " - " + (parseFloat(maxValue*0.2).toFixed(2))}
+	    ],
+	    collapsed: false,
+	    // insert different label for the collapsed legend button.
+	}).addTo(mymap);
+
 }
 
-function polygonOutlineColour(maxValue){
-	if(maxValue < 0.2){
-		return('blue');
-	} else if(maxValue < 0.4){
-		return('lime');
-	} else if (maxValue < 0.7){
-		return('yellow');
-	} else return('red');
+function polygonFillColour(val) {
+    return val > 0.7  ? '#E74C3C' :
+           val > 0.4  ? '#F39C12' :
+           val > 0.2  ? '#2ECC71' :
+           			   '#2E86C1' ;
 }
 
-function polygonFillColour(maxValue){
-	if(maxValue < 0.2){
-		return('blue');
-	} else if(maxValue < 0.4){
-		return('lime');
-	} else if (maxValue < 0.7){
-		return('yellow');
-	} else return('red');
+function polygonOutlineColour(val){
+	if(val < 0.2){
+		return('#2E86C1 ');
+	} else if(val < 0.4){
+		return('#2ECC71');
+	} else if (val < 0.7){
+		return('#F39C12');
+	} else return('#E74C3C');
 }
+
+/*function polygonFillColour(maxValue){
+	if(maxValue < 0.2){
+		return('#2E86C1 ');
+	} else if(maxValue < 0.4){
+		return('#2ECC71');
+	} else if (maxValue < 0.7){
+		return('#F39C12');
+	} else return('#E74C3C');
+}*/

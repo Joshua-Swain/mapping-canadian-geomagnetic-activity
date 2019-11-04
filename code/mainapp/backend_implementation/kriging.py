@@ -27,6 +27,8 @@ class Kriging():
 		return data.df.rolling(self.moving_avg_size).mean()
 
 	def perform_kriging(self, index, data):
+		current_date = str(data.dataset_df['DD-HH'][index]);
+
 		# Since we are using a rolling average, the average of the first moving_avg_size - 1 rows will be NaN.
 		# Hence, we use the first non-NaN row from the dataset to determine the magnetic field.
 		if index < (self.moving_avg_size - 1):
@@ -57,9 +59,11 @@ class Kriging():
 		else:
 			print("NO", flush=True)
 			self.sites_output_df = self.build_sites_output_dataframe(index, data, holed_dataset_site_names, predicted_value)
-			target_value = None
+			target_value = r'N/A'
 
 		print(f"The target value is: {target_value} and the predicted value is {predicted_value}", flush=True)
+
+		print(f"CURRENT DATE: {current_date}", flush=True)
 
 		# Return z1.data, sites_output_df, predicted value and target_value as a dictionary. This information will
 		# be passed onto the user's browser, where is will be used to visualise the data on maps.
@@ -68,6 +72,7 @@ class Kriging():
 		return_values['sites_output_df'] = self.sites_output_df
 		return_values['predicted_value'] = predicted_value
 		return_values['target_value'] = target_value
+		return_values['current_date'] = current_date
 		return return_values
 
 
@@ -96,9 +101,9 @@ class Kriging():
 
 		# dict object containing magnetic field variation values of the MEA site
 		target_site_dict = {
-		'site': target_columns[0], 
-		'predicted_value': kriging_output['predicted_value'], 
-		'target_value': kriging_output['target_value']
+		r'site': target_columns[0], 
+		r'predicted_value': kriging_output['predicted_value'], 
+		r'target_value': kriging_output['target_value']
 		}
 
 		# dict object containing information about all sites
@@ -134,6 +139,7 @@ class Kriging():
 		grid_dimensions = {'rows': kriging_output['prediction_grid'].shape[0], 'columns': kriging_output['prediction_grid'].shape[1]}
 		
 		# Generate a dict consisting of the above 3 JSON objects and return it to the browser.
+		json_response_obj['current_date'] = kriging_output['current_date']
 		json_response_obj[r'target_site'] = target_site_dict
 		json_response_obj[r'sites_data'] = sites_data
 		json_response_obj[r'across_canada_data'] = across_canada_data
@@ -143,5 +149,3 @@ class Kriging():
 		# objects is unpacked as a JSON object in Jinja2 template using the 'tojson' method. Hence,
 		# pass it to the browser as a mapping (i.e dict obj) and unpack it as a JSON directly.
 		return json_response_obj
-
-
