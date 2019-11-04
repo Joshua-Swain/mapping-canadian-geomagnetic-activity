@@ -3,7 +3,7 @@
 ## Team Name: Magneto AI
 
 ## Accessing the application
-The application is hosted on the cloud (Heroku) and can be accessed via [this link](http://team-magnetoai-csa-challenge.herokuapp.com/magnetic-field-canada).
+The application is hosted on the cloud (Heroku) and can be accessed here: [http://team-magnetoai-csa-challenge.herokuapp.com/magnetic-field-canada](http://team-magnetoai-csa-challenge.herokuapp.com/magnetic-field-canada).
 
 ## What is this application?
 This application was built as a solution to the GO Canada challenge #2 posed by the Canadian Space Agency (CSA) during NASA SpaceApps 2019.<br><br>
