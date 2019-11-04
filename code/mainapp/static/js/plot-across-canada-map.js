@@ -55,7 +55,6 @@ function plotAcrossCanadaMap(data){
 		c = 0;
 	}
 
-
 	L.control.legend({
 	    items: [
 	        {color: '#E74C3C', label: (parseFloat(0.7*maxValue).toFixed(2)) + " - " + (parseFloat(maxValue).toFixed(2)) },

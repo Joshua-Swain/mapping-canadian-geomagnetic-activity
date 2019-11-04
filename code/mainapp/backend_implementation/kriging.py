@@ -17,9 +17,7 @@ class Kriging():
 		self.sites_output_df = None
 		self.data_moving_avg = self.calculate_moving_average(data)
 		self.kriging_output  = self.perform_kriging(index, data)
-		#print(f"The results of kriging are: {self.kriging_output}", flush=True)
 		self.kriging_output_json = self.structure_output_as_json(self.kriging_output)
-
 
 	def calculate_moving_average(self, data):
 		# After experiementing with different sizes, it was found that using a moving  average over every 2 samples 
@@ -43,27 +41,16 @@ class Kriging():
 		index_of_mea_longitude = np.where(data.longitude_grid == mea_longitude)[0][0]
 		index_of_mea_latitude = np.where(data.latitude_grid == mea_latitude)[0][0]
 
-		print(f"LAT: {index_of_mea_latitude}, LON: {index_of_mea_longitude}", flush=True)
-		print(f"Lat grid: {data.latitude_grid}", flush=True)
-		print(f"Lon grid: {data.longitude_grid}", flush=True)
-		print(f"DIMENSTIONS OF THE GRID IS: {z1.data.shape}", flush=True)
-
 		# z1 is a masked array of size len(latitude_grid) x len(longitude_grid) containing the interpolated values.
 		# Hence, we access the value at MEA's coordinates as z1[lat][long] instead of z1[long][lat].
 		predicted_value = round(z1.data[index_of_mea_latitude][index_of_mea_longitude], 2)
 
 		if isinstance(data, FullData):
-			print("YES", flush=True)
 			self.sites_output_df = self.build_sites_output_dataframe(index, data, full_dataset_site_names, predicted_value)
 			target_value = data.target.loc[index]['MEA']
 		else:
-			print("NO", flush=True)
 			self.sites_output_df = self.build_sites_output_dataframe(index, data, holed_dataset_site_names, predicted_value)
 			target_value = r'N/A'
-
-		print(f"The target value is: {target_value} and the predicted value is {predicted_value}", flush=True)
-
-		print(f"CURRENT DATE: {current_date}", flush=True)
 
 		# Return z1.data, sites_output_df, predicted value and target_value as a dictionary. This information will
 		# be passed onto the user's browser, where is will be used to visualise the data on maps.
