@@ -1,4 +1,4 @@
-# CSA GO Canada Challenge 2: Mapping Canadian Geomagnetic Activity
+﻿# CSA GO Canada Challenge 2: Mapping Canadian Geomagnetic Activity
 
 ## Team Name: Magneto AI
 
@@ -6,7 +6,7 @@
 The application is hosted on the cloud (Heroku) and can be accessed here: [http://team-magnetoai-csa-challenge.herokuapp.com/magnetic-field-canada](http://team-magnetoai-csa-challenge.herokuapp.com/magnetic-field-canada).
 
 ## What is this application?
-This application was built as a solution to the GO Canada challenge #2 posed by the Canadian Space Agency (CSA) during NASA SpaceApps 2019.<br><br>
+This application was built as a solution to the GO Canada challenge #2 posed by the Canadian Space Agency (CSA) during NASA SpaceApps 2019. Our solution won the regional competition in Halifax, Nova Scotia, recognized [here](https://twitter.com/SpaceAppsHFX/status/1186023504472367106).<br><br>
 We have developed a web application that visualizes the maximum variation in geomagnetic fields at given observatories. Using this data, we interpolate the magnetic field variation at the missing site (MEA – marked in red). Also, the application displays a second map that shows a heat map of Canada’s geomagnetic variations for the given day and time. Hovering over any of the markers on the map will indicate the value of the magnetic field variation at that specific coordinate.
 
 ## Who built the application? (The Team)
